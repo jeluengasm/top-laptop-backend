@@ -1,0 +1,35 @@
+version: '3.9'
+
+volumes:
+  mssql-data: {}
+
+services:
+  api:
+    build:
+      context: .
+      args:
+        - DEV=true
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    container_name: top-laptop-backend
+    restart: on-failure
+    env_file:
+      - .env
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 1433:1433
+    container_name: mssql
+    env_file:
+      - .env
+    hostname: db
+    volumes:
+      - mssql-data:/var/opt/mssql
+    depends_on:
+      - api
