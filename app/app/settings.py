@@ -39,6 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'django_filters',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
     'user',
 ]
 
@@ -46,6 +51,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -115,19 +122,52 @@ AUTH_USER_MODEL = 'user.User'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
-
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n  # noqa
 USE_I18N = True
 
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#use-tz  # noqa
 USE_TZ = True
 
+# STATIC FILE CONFIGURATION
+ROOT_DIR = environ.Path(__file__) - 2
+# ------------------------------------------------------------------------------
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
+STATIC_URL = '/staticfiles/'
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [str(ROOT_DIR('static'))]
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# MEDIA CONFIGURATION
+# ------------------------------------------------------------------------------
+MEDIA_ROOT = str(ROOT_DIR('media'))
+
+MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# DJANGO REST FRAMEWORK
+# ------------------------------------------------------------------------------
+REST_FRAMEWORK = {
+    'UPLOADED_FILES_USE_URL': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.FileUploadParser',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
