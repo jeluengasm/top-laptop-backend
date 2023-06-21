@@ -3,9 +3,10 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from user.managers import UserManager
+from commons.models import TokenBasedModel
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser, PermissionsMixin, TokenBasedModel):
     email = models.EmailField(
         verbose_name=_('email'), unique=True, max_length=255
     )

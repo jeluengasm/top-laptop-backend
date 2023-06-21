@@ -1,9 +1,9 @@
-from rest_framework.serializers import ModelSerializer
+from commons.serializers import UuidSerializer
 from user.models import User
 
 
-class UserSerializer(ModelSerializer):
+class UserSerializer(UuidSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'name', 'is_active']
-        read_only_fields = ['id', 'email', 'is_active']
+        fields = ('id', 'email', 'name', 'is_active')
+        read_only_fields = ('id', 'email', 'is_active')
