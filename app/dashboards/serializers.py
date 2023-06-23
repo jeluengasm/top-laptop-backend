@@ -24,5 +24,4 @@ class DashboardDetailSerializer(UuidSerializer):
 class LaptopsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Laptops
-
-
+        fields = '__all__'

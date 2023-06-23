@@ -6,6 +6,7 @@ class DashBoardManagerPolicy(AccessPolicy):
         {
             'action': ['*'],
             'principal': ['group:admin', 'group:data', 'admin'],
+            'effect': 'allow',
             'condition_expression': 'role_must_be:admin or role_must_be:data-analyst',
         }
     ]

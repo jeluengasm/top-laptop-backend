@@ -24,12 +24,11 @@ class UserViewSet(AccessViewSetMixin, viewsets.ReadOnlyModelViewSet):
         email = request.data.get('email', None)
         password = request.data.get('password', None)
         user = auth.authenticate(username=email, password=password)
-        try:
-            Token.objects.get(user=user).delete()
-        except Token.DoesNotExist:
-            pass
         if user:
-            token = Token.objects.create(user=user)
+            try:
+                token = Token.objects.get(user=user)
+            except Token.DoesNotExist:
+                token = Token.objects.create(user=user)
             auth.login(request, user)
             user_serializer = serializers.UserSerializer(user)
             return Response(
