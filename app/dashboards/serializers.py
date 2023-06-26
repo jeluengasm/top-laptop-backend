@@ -6,11 +6,19 @@ from user.models import User
 
 class DashboardListSerializer(UuidSerializer):
     last_modified_by = serializers.SlugRelatedField(
-        slug_field="uuid", queryset=User.objects.all()
+        slug_field="name", queryset=User.objects.all(), required=False
     )
     class Meta:
         model = models.Dashboard
-        exclude = ('uuid', 'created_at', 'updated_at')
+        exclude = ('uuid',)
+
+    def validate(self, attrs):
+        if (
+            self.context['action'] in ('create', 'update', 'partial_update')
+            and attrs.get('last_modified_by') == None
+        ):
+            attrs['last_modified_by'] = self.context['request'].user
+        return attrs
 
 
 class DashboardDetailSerializer(UuidSerializer):
@@ -18,7 +26,7 @@ class DashboardDetailSerializer(UuidSerializer):
 
     class Meta:
         model = models.Dashboard
-        exclude = ('uuid', 'created_at', 'updated_at')
+        exclude = ('uuid',)
 
 
 class LaptopsSerializer(serializers.ModelSerializer):

@@ -3,6 +3,8 @@ from user.models import Role
 
 class AccessPolicy(AccessPolicy):
     def role_must_be(self, request, view, action, field):
+        if request.user.is_superuser:
+            return True
         try:
             request.user.roles.get(slug=field)
             return True

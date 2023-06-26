@@ -31,7 +31,7 @@ class Laptops(models.Model):
 class Dashboard(TokenBasedModel):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    embed_url = models.URLField(max_length=255, blank=True)
+    embed_url = models.TextField(blank=True)
     is_published = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
