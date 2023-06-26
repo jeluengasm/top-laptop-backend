@@ -26,7 +26,7 @@ class LaptopsPolicy(AccessPolicy):
     statements = [
         {
             'action': ['*'],
-            'principal': ['group:admin', 'group:data', 'admin'],
+            'principal': ['*'],
             'effect': 'allow',
         }
     ]
