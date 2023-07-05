@@ -19,7 +19,7 @@ services:
     container_name: top-laptop-backend
     restart: on-failure
     env_file:
-      - .env
+      - .env.dev
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
