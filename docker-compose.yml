@@ -27,7 +27,7 @@ services:
       - 1433:1433
     container_name: mssql
     env_file:
-      - .env
+      - .env.dev
     hostname: db
     volumes:
       - mssql-data:/var/opt/mssql
