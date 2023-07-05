@@ -1,8 +1,5 @@
 version: '3.9'
 
-volumes:
-  mssql-data: {}
-
 services:
   api:
     build:
@@ -14,8 +11,11 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+      - dev-static-data:/vol/web
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c " python manage.py wait_for_db &&
+              python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
     container_name: top-laptop-backend
     restart: on-failure
     env_file:
@@ -33,3 +33,7 @@ services:
       - mssql-data:/var/opt/mssql
     depends_on:
       - api
+
+volumes:
+  mssql-data:
+  dev-static-data:

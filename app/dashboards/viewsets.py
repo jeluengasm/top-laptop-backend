@@ -21,7 +21,9 @@ class DashboardManagerViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-class DashboardsViewerViewSet(AccessViewSetMixin, viewsets.ReadOnlyModelViewSet):
+class DashboardsViewerViewSet(
+    AccessViewSetMixin, viewsets.ReadOnlyModelViewSet
+):
     queryset = models.Dashboard.objects.all()
     access_policy = policies.DashBoardManagerPolicy
 

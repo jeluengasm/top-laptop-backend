@@ -3,7 +3,17 @@ from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, email,password, is_staff, is_superuser, groups=None, roles=None, is_active=True, **extra_fields):
+    def _create_user(
+        self,
+        email,
+        password,
+        is_staff,
+        is_superuser,
+        groups=None,
+        roles=None,
+        is_active=True,
+        **extra_fields
+    ):
         user = self.model(
             email=self.normalize_email(email),
             is_active=is_active,
@@ -25,10 +35,27 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_user(self, email=None, password=None, groups=None, roles=None, is_active=True, **extra_fields):
+    def create_user(
+        self,
+        email=None,
+        password=None,
+        groups=None,
+        roles=None,
+        is_active=True,
+        **extra_fields
+    ):
         is_staff = extra_fields.pop('is_staff', False)
         is_superuser = extra_fields.pop('is_superuser', False)
-        return self._create_user(email, password, is_staff, is_superuser, groups, roles, is_active, **extra_fields,)
+        return self._create_user(
+            email,
+            password,
+            is_staff,
+            is_superuser,
+            groups,
+            roles,
+            is_active,
+            **extra_fields,
+        )
 
     def create_superuser(self, email, password, **extra_fields):
         return self._create_user(

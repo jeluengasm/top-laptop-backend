@@ -6,7 +6,16 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    list_display = ('name', 'email', 'is_active', 'is_staff', 'get_groups', 'get_roles', 'registered_at', 'updated_at')
+    list_display = (
+        'name',
+        'email',
+        'is_active',
+        'is_staff',
+        'get_groups',
+        'get_roles',
+        'registered_at',
+        'updated_at',
+    )
     list_filter = ('is_active', 'is_staff', 'registered_at', 'updated_at')
     search_fields = ('email', 'name')
     ordering = ('name',)
@@ -15,33 +24,18 @@ class UserAdmin(BaseUserAdmin):
 
     add_fieldsets = (
         (
-            None, {
+            None,
+            {
                 'classes': ('wide',),
-                'fields': ('name', 'email', 'password1', 'password2')
-            }
+                'fields': ('name', 'email', 'password1', 'password2'),
+            },
         ),
     )
     fieldsets = (
-        (
-            None, {
-                'fields': ('name', 'email', 'password')
-            }
-        ),
-        (
-            None, {
-                'fields': ('is_active', 'is_staff', 'is_superuser')
-            }
-        ),
-        (
-            None, {
-                'fields': ('registered_at', 'updated_at')
-            }
-        ),
-        (
-            None, {
-                'fields': ('roles', 'groups')
-            }
-        )
+        (None, {'fields': ('name', 'email', 'password')}),
+        (None, {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (None, {'fields': ('registered_at', 'updated_at')}),
+        (None, {'fields': ('roles', 'groups')}),
     )
     readonly_fields = ('registered_at', 'updated_at')
     filter_horizontal = ('roles', 'groups')
@@ -53,6 +47,7 @@ class UserAdmin(BaseUserAdmin):
     @admin.display(description='Roles')
     def get_roles(self, obj):
         return ', '.join([str(role) for role in obj.roles.all()])
+
 
 @admin.register(Role)
 class RoleAdmin(admin.ModelAdmin):
