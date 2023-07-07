@@ -25,14 +25,21 @@ class DashBoardManagerPolicy(AccessPolicy):
 
         return queryset.none()
 
+
 class DashBoardViewerPolicy(AccessPolicy):
     statements = [
         {
             'action': ['*'],
-            'principal': ['group:admin', 'group:data', 'group:client' , 'admin'],
+            'principal': [
+                'group:admin',
+                'group:data',
+                'group:client',
+                'admin',
+            ],
             'effect': 'allow',
             'condition_expression': (
-                'role_must_be:admin or role_must_be:data_analyst'
+                'role_must_be:admin or role_must_be:data_analyst or'
+                ' role_must_be:agent'
             ),
         }
     ]

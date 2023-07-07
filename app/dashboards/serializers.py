@@ -9,8 +9,12 @@ class DashboardListSerializer(UuidSerializer):
     last_modified_by = serializers.SlugRelatedField(
         slug_field="name", queryset=User.objects.all(), required=False
     )
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True, required=False)
-    updated_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True, required=False)
+    created_at = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", read_only=True, required=False
+    )
+    updated_at = serializers.DateTimeField(
+        format="%Y-%m-%d %H:%M:%S", read_only=True, required=False
+    )
 
     class Meta:
         model = models.Dashboard
