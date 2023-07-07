@@ -16,7 +16,7 @@ api.register(
 )
 api.register(
     r'dashboards/viewer',
-    dashboard_viewsets.DashboardManagerViewSet,
+    dashboard_viewsets.DashboardsViewerViewSet,
     basename='dashboard-viewer',
 )
 api.register(r'laptops', dashboard_viewsets.LaptopsViewSet, basename='laptops')

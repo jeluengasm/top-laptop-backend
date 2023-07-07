@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from commons import viewsets
 from dashboards import models
 from dashboards import serializers
 from rest_access_policy import AccessViewSetMixin
@@ -17,15 +17,12 @@ class DashboardManagerViewSet(AccessViewSetMixin, viewsets.ModelViewSet):
     def get_queryset(self):
         return self.access_policy.scope_queryset(self.request, self.queryset)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
 
 class DashboardsViewerViewSet(
     AccessViewSetMixin, viewsets.ReadOnlyModelViewSet
 ):
-    queryset = models.Dashboard.objects.all()
-    access_policy = policies.DashBoardManagerPolicy
+    queryset = models.Dashboard.objects.filter(is_published=True)
+    access_policy = policies.DashBoardViewerPolicy
 
     def get_serializer_class(self):
         if self.action in ('retrieve',):
