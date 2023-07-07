@@ -1,6 +1,5 @@
 from commons import viewsets
 from user.models import User
-from user.serializers import UserSerializer
 from django.contrib import auth
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
@@ -13,8 +12,12 @@ from user import policies
 
 class UserViewSet(AccessViewSetMixin, viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
     access_policy = policies.UserAccessPolicy
+
+    def get_serializer_class(self):
+        if self.action == 'profile':
+            return serializers.UserProfileSerializer
+        return serializers.UserSerializer
 
     def get_queryset(self):
         return self.access_policy.scope_queryset(self.request, self.queryset)
@@ -40,7 +43,7 @@ class UserViewSet(AccessViewSetMixin, viewsets.ReadOnlyModelViewSet):
     @action(methods=['GET'], detail=False)
     def profile(self, request):
         if request.user.is_authenticated:
-            serializer = self.serializer_class(request.user)
+            serializer = self.get_serializer_class()(request.user)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
         return Response(status=status.HTTP_401_UNAUTHORIZED)
 

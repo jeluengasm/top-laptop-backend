@@ -1,5 +1,3 @@
-from uuid import uuid4
-
 from rest_framework import viewsets
 
 
