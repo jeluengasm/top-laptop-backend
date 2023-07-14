@@ -15,26 +15,26 @@ services:
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
       - SECRET_KEY=${SECRET_KEY}
       - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
 
-  db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    ports:
-      - 1433:1433
-    container_name: mssql
-    environment:
-      - ACCEPT_EULA=${ACCEPT_EULA}
-      - MSSQL_PID=${MSSQL_PID}
-      - MSSQL_PORT=${MSSQL_PORT}
-      - MSSQL_USER=${MSSQL_USER}
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-      - MSSQL_HOST=${MSSQL_HOST}
-      - MSSQL_DATABASE=${MSSQL_DATABASE}
-    hostname: db
-    volumes:
-      - mssql-data:/var/opt/mssql
-    restart: always
+  # db:
+  #   image: mcr.microsoft.com/mssql/server:2022-latest
+  #   ports:
+  #     - 1433:1433
+  #   container_name: mssql
+  #   environment:
+  #     - ACCEPT_EULA=${ACCEPT_EULA}
+  #     - MSSQL_PID=${MSSQL_PID}
+  #     - MSSQL_PORT=${MSSQL_PORT}
+  #     - MSSQL_USER=${MSSQL_USER}
+  #     - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+  #     - MSSQL_HOST=${MSSQL_HOST}
+  #     - MSSQL_DATABASE=${MSSQL_DATABASE}
+  #   hostname: db
+  #   volumes:
+  #     - mssql-data:/var/opt/mssql
+  #   restart: always
 
   proxy:
     build:
