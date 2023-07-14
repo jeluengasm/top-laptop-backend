@@ -17,7 +17,8 @@ RUN apk update && apk upgrade && \
     curl -O https://download.microsoft.com/download/e/4/e/e4e67866-dffd-428c-aac7-8d28ddafb39b/mssql-tools_17.10.1.1-1_amd64.apk && \
     apk add --allow-untrusted msodbcsql17_17.10.2.1-1_amd64.apk && \
     apk add --allow-untrusted mssql-tools_17.10.1.1-1_amd64.apk && \
-    # apk add --update --no-cache --virtual .tmp-build-deps build-base linux-headers \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base musl-dev zlib zlib-dev linux-headers && \
     apk add python3-dev \
                           gcc \
                           g++ \
@@ -33,7 +34,7 @@ RUN apk update && apk upgrade && \
         then /py/bin/pip install -r /tmp/requirements.dev.txt; \
     fi && \
     rm -rf /tmp && \
-    # apk del .tmp-build-deps && \
+    apk del .tmp-build-deps && \
     adduser \
         --disabled-password \
         --no-create-home \
